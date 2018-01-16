@@ -5,18 +5,17 @@ using UnityEngine.UI;
 
 public class AndroidControls : ControlSet {
 
-	private Canvas androidControls;
-	private Button button;
+	private RectTransform androidControls;
 
-	protected override void Start() {
+	public override void Start() {
 		base.Start();
 		Debug.Log("Android controls initialised!");
-		androidControls = GameObject.FindWithTag("MainCanvas").GetComponent<Canvas>();
-		button = GameObject.Find("AndroidControls").GetComponentInChildren<Button>();
-		button.gameObject.SetActive(true);
+		Screen.orientation = ScreenOrientation.LandscapeLeft;
+		androidControls = GameObject.Find("AndroidControls").GetComponent<RectTransform>();
+		androidControls.GetChild(0).gameObject.SetActive(true);
 
 		//Sets the UI button's function to the Boost function
-		button.onClick.AddListener(Boost);
+		androidControls.GetChild(0).GetComponent<Button>().onClick.AddListener(Boost);
 	}
 
 	public override void CheckInput() {

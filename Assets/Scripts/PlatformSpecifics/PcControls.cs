@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PcControls : ControlSet {
 
-	protected override void Start() {
+	public override void Start() {
 		base.Start();
 		Debug.Log("Pc controls initialised!");
 	}

@@ -10,7 +10,7 @@ public class ControlSet {
 	public ControlEventJump jumpInput;
 	public ControlEventAxis moveInput;
 
-	protected virtual void Start() {
+	public virtual void Start() {
 	}
 
 	public static ControlSet GetControls() {

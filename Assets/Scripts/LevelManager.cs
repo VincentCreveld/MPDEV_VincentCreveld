@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour {
 
-	public ObjectPool<LevelPiece> objPool;
+	public Transform initPlace;
+	public static Transform InitPlace;
 
-	// Use this for initialization
-	private void Start () {
-		
+	private void Awake() {
+		InitPlace = initPlace;
 	}
 	
 }

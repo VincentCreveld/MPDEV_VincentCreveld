@@ -2,24 +2,35 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerManager : MonoBehaviour {
+
+	public static PlayerManager instance;
 
 	public const int MAX_SPEED = 10;
 	private bool isCounting = false;
 	private Canvas canvas;
 	private Text speed;
+	private Text scoreUI;
 	private ControlSet currentControls;
 	private Rigidbody rb;
 	private float boostCD = 0;
 	private bool isBoosting = false;
+	public int score;
 
 	private void Awake() {
+		if(instance == null)
+			instance = this;
+		else
+			Debug.LogError("MORE THAT ONE PLAYER IN SCENE");
+
 		currentControls = ControlSet.GetControls();
-		Debug.Log(currentControls);
+		currentControls.Start();
 		canvas = GameObject.FindWithTag("MainCanvas").GetComponent<Canvas>();
 		speed = canvas.transform.Find("Speed").GetComponent<Text>();
+		scoreUI = canvas.transform.Find("Score").GetComponent<Text>();
 		rb = GetComponent<Rigidbody>();
 		currentControls.moveInput += Move;
 		currentControls.jumpInput += Boost;
@@ -27,17 +38,24 @@ public class PlayerManager : MonoBehaviour {
 
 	private void LateUpdate () {
 		currentControls.CheckInput();
+		speed.text = "Speed: " + rb.velocity.z.ToString();
+		scoreUI.text = "Score: " + score.ToString();
+	}
+
+	private void OnTriggerEnter(Collider other) {
+		if(other.gameObject.tag == "Obstacle") {
+			SceneManager.LoadScene(0);
+		}
 	}
 
 	public void Move(float axis) {
 		rb.AddForce(new Vector3(axis, 0, 0));
-		speed.text = "Speed: " + rb.velocity.z.ToString();
 		if(boostCD > 0 && !isCounting)
 			StartCoroutine(ReduceBoostCount());
-		if(rb.velocity.z < MAX_SPEED && !isBoosting) {
-			rb.AddForce(Vector3.forward * Time.deltaTime, ForceMode.Impulse);
+		if(rb.velocity.z < MAX_SPEED + score / 4 && !isBoosting) {
+			rb.AddForce(new Vector3(0,0,1 + score/4) * Time.deltaTime, ForceMode.Impulse);
 		}
-		if(rb.velocity.z > MAX_SPEED && !isBoosting) {
+		if(rb.velocity.z > MAX_SPEED + score/4 && !isBoosting) {
 				rb.velocity = rb.velocity * 0.9f;
 			}
 

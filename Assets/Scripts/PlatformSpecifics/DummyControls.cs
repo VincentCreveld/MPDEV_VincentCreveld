@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DummyControls : ControlSet {
 
-	protected override void Start() {
+	public override void Start() {
 		base.Start();
 		Debug.Log("No controls initialised, platform not compatible!");
 		Application.Quit();
