@@ -9,12 +9,15 @@ public class PlayerManager : MonoBehaviour {
 
 	public static PlayerManager instance;
 
+	//Get controls form Abstract factory
+	private ControlSet currentControls;
+
 	public const int MAX_SPEED = 10;
 	private bool isCounting = false;
 	private Canvas canvas;
 	private Text speed;
 	private Text scoreUI;
-	private ControlSet currentControls;
+	
 	private Rigidbody rb;
 	private float boostCD = 0;
 	private bool isBoosting = false;
@@ -36,9 +39,9 @@ public class PlayerManager : MonoBehaviour {
 		currentControls.jumpInput += Boost;
 	}
 
-	private void LateUpdate () {
+	private void Update () {
 		currentControls.CheckInput();
-		speed.text = "Speed: " + rb.velocity.z.ToString();
+		speed.text = "Speed: " + ((int)rb.velocity.z).ToString();
 		scoreUI.text = "Score: " + score.ToString();
 	}
 

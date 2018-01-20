@@ -17,12 +17,12 @@ public class ControlSet {
 		if(Application.isEditor)
 			return new PcControls();
 		switch(Application.platform) {
-#if !DISABLE_SYSTEM
+			#if !DISABLE_SYSTEM
 			case RuntimePlatform.WindowsPlayer:
 				return new PcControls();
 			case RuntimePlatform.Android:
 				return new AndroidControls();
-#endif
+			#endif
 			default:
 				return new DummyControls();
 		}
